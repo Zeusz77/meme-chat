@@ -11,7 +11,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,3 +39,13 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+const MongoClient = require('mongodb').MongoClient;
+
+MongoClient.connect('mongodb+srv://asd:zus@cluster0.cwfgz.mongodb.net/?retryWrites=true&w=majority', (err, client) => {
+  if (err) throw err
+
+  const db = client.db('sample_airbnb')
+
+  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+})
