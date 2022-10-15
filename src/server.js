@@ -16,7 +16,7 @@ mongoose
 
 app.get(`/`, (req, res)=> res.send('Hello!'));
 
-app.use('/api/users');
+app.use('/api/users', users);
 
 const port = process.env.PORT || 3000;
 
