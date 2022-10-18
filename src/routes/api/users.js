@@ -7,7 +7,6 @@ const keys = require('../../config/keys');
 const passport = require('passport');
 
 const User = require('../../models/User');
-const { response } = require('express');
 
 router.get('/test', (req, res)=> {
     res.json({msg: 'test message'});
