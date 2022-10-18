@@ -4,6 +4,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const passport = require('passport');
 
 const User = require('../../models/User');
 const { response } = require('express');
@@ -51,12 +52,12 @@ router.post('/login', (req, res) => {
         bcrypt.compare(password, user.password)
             .then(isMatch => {
                 if(isMatch) {
-                    const payload = {id: user.id, email: user.email, handle: user.handle}
+                    const payload = {id: user.id, handle: user.handle, avatar: user.avatar};
 
                     jwt.sign(payload, keys.key, {expiresIn: 3600}, (err, token)=>{
                         res.json({
                             success: true,
-                            token: 'memechat-auth:' + token
+                            token: 'Bearer ' + token
                         })
                     });
                 }
@@ -65,5 +66,13 @@ router.post('/login', (req, res) => {
             }})
     })
 })
+
+router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.json({
+        id: req.user.id,
+        handle: req.user.handle,
+        email: req.user.email
+    });
+});
 
 module.exports = router;
