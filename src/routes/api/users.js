@@ -10,6 +10,7 @@ const passport = require('passport');
 const validateRegisterInput = require('../../validation/register');
 
 const User = require('../../models/User');
+const Message = require('../../models/Message');
 
 router.get('/test', (req, res)=> {
     res.json({msg: 'test message'});
