@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const TemplateSchema = new Schema({
-    pictureID: {
+const ImageSchema = new Schema({
+    name: {
         type: String,
         required: true,
+    },
+    image: {
+        data: Buffer,
+        contentType: String
     },
     fields: [{
         x: Number,
@@ -12,4 +16,4 @@ const TemplateSchema = new Schema({
     }]
 });
 
-module.exports = Template = mongoose.model('templates', TemplateSchema);
+module.exports = Image = mongoose.model('images', ImageSchema);

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Template = require('./Template');
+const image = require('./Image');
 
 const MessageSchema = new Schema({
-    template: {
+    imageName: {
         type: "String",
         required: true,
     },
