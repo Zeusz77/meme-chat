@@ -2,15 +2,28 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const image = require('./Image');
 
+// Message Schema conmtains the Image Schema as a subdocument (embedded document) the text's content and the user's id and the chat's id
 const MessageSchema = new Schema({
-    imageName: {
-        type: "String",
+    image: {
+        type: image.schema,
         required: true,
     },
-    filler: {
-        type: [
-            "String"
-        ]
+    text: {
+        type: String,
+        required: true,
+    },
+    chat: {
+        type: Schema.Types.ObjectId,
+        ref: 'chats',
+        required: true,
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
 

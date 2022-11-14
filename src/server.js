@@ -7,6 +7,7 @@ const multer = require('multer');
 const users = require('./routes/api/users');
 const messages = require('./routes/api/messages');
 const images = require('./routes/api/images');
+const chats = require('./routes/api/chats');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.get(`/`, (req, res)=> res.send('Hello!'));
 app.use('/api/users', users);
 app.use('/api/messages', messages);
 app.use('/api/images', images);
+app.use('/api/chats', chats);
 
 const port = process.env.PORT || 5000;
 

@@ -10,6 +10,10 @@ const ImageSchema = new Schema({
         data: Buffer,
         contentType: String
     },
+    numberOfFields: {
+        type: Number,
+        required: true,
+    },
     fields: [{
         x: Number,
         y: Number,

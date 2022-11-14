@@ -40,7 +40,14 @@ router.post('/upload', (req, res) => {
             .catch(err => console.log(err));
         }
     })
-})
+}),0
+
+// get all images
+router.get('/', (req, res) => {
+    Image.find()
+    .then(images => res.json(images))
+    .catch(err => console.log(err));
+});
 
 
 module.exports = router;

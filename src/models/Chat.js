@@ -8,7 +8,8 @@ const ChatSchema = new Schema({
         required: true,
     }],
     name: {
-        type: String
+        type: String,
+        default: ''.join(participants.map(participant => participant.handle))
     }
 });
 
