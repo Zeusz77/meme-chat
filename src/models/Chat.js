@@ -9,7 +9,11 @@ const ChatSchema = new Schema({
     }],
     name: {
         type: String,
-        default: ''.join(participants.map(participant => participant.handle))
+        default: ''.join(participants.map(participant => participant.handle)),
+    },
+    lastMessage: {
+        type: Date,
+        required: true,
     }
 });
 

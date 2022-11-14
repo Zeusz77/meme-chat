@@ -29,3 +29,14 @@ router.post('/createChats', passport.authenticate('jwt', {session: false}), (req
     .then(chat => res.json(chat))
     .catch(err => console.log(err));
 });
+
+// User creates a new chat
+router.post('/createChats', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const newChat = new Chat({
+        participants: Array(req.body.participants.map(participant => participant.id)),
+        text: req.body.text
+    });
+    newChat.save()
+    .then(chat => res.json(chat))
+    .catch(err => console.log(err));
+});
