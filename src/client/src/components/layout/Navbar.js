@@ -3,10 +3,10 @@ import React, { Component } from "react";
 class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
         <div class="container">
           <a class="navbar-brand" href="landing.html">
-            DevConnector
+            <i class="fa fa-beer" aria-hidden="true"></i> MEME CHAT
           </a>
           <button
             class="navbar-toggler"
