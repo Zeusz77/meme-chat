@@ -3,9 +3,9 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-router.get('/test', (req, res)) => {
+router.get('/test', (req, res) => {
     res.json({msg: 'test message'});
-}
+});
 
 router.get('/chats', passport.authenticate('jwt', {session: false}), (req, res) => {
     Chat.find({users: req.user.id})
@@ -29,3 +29,5 @@ router.post('/createChats', passport.authenticate('jwt', {session: false}), (req
     .then(chat => res.json(chat))
     .catch(err => console.log(err));
 });
+
+module.exports = router;
