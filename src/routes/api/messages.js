@@ -30,4 +30,11 @@ router.post('/chat/:chatId', passport.authenticate('jwt', {session: false}), (re
     newMessage.save().then(message => res.json(message));
 });
 
+// Get a message by id
+router.get('/:id', (req, res) => {
+    Message.findById(req.params.id)
+    .then(message => res.sendFile(message.imagePath))
+    .catch(err => res.status(404).json({nomessagefound: 'No message found'}));
+});
+
 module.exports = router;
