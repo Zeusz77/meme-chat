@@ -21,16 +21,17 @@ class Register extends Component {
     }
 
     componenetWillReceiveProps(nextProps) {
+
         if(nextProps.errors) {
             this.setState({ errors: nextProps.errors });
         }
     }
 
-    onChange = (e) => {
+    onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    onSubmit = (e) => {
+    onSubmit(e) {
         e.preventDefault();
 
         const newUser = {
@@ -40,7 +41,7 @@ class Register extends Component {
             passwordConfirm: this.state.password2
         };
 
-        this.props.registerUser(newUser, this.props.history);
+        this.props.registerUser(newUser, this.props.router.navigate);
     }
 
   render() {
