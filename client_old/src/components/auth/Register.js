@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withRouter from '../../extras/withRouter';
+import withRouter from '../../utils/withRouter';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
@@ -46,7 +46,7 @@ class Register extends Component {
 
   render() {
 
-    const { errors } = this.state;
+    const { errors } = this.props.errors;
 
     return (
     <div className="register">

@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import classnames from 'classnames';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { loginUser } from '../../actions/authActions';
+import withRouter from '../../utils/withRouter';
 
 class Login extends Component {
   constructor() {
@@ -14,11 +18,21 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange = (e) => {
+  componenetWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated) {
+      this.props.router.navigate('/');
+    }
+
+    if(nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  onSubmit = (e) => {
+  onSubmit(e) {
     e.preventDefault();
 
     const user = {
@@ -26,7 +40,7 @@ class Login extends Component {
       password: this.state.password
     };
 
-    console.log(user);
+    this.props.loginUser(user);
   }
 
   render() {
@@ -55,7 +69,7 @@ class Login extends Component {
                     'is-invalid': errors.password
                 })}
                   placeholder="Password" name="password"
-                  value={this.state.email}
+                  value={this.state.password}
                   onChange={this.onChange}
                 />
                 {errors.password ? <div className="invalid-feedback">{errors.password}</div> : null}
@@ -70,4 +84,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, loginUser)(withRouter(Login));
