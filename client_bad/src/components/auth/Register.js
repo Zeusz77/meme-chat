@@ -9,40 +9,45 @@ class Register extends Component {
     constructor() {
         super();
         this.state = {
-            name: '',
-            email: '',
-            password: '',
-            password2: '',
-            errors: {}
+          name: '',
+          email: '',
+          password: '',
+          password2: '',
+          errors: {}
         };
-
+    
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    componenetWillReceiveProps(nextProps) {
-
-        if(nextProps.errors) {
-            this.setState({ errors: nextProps.errors });
+      }
+    
+      componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+          this.props.router.navigate('/');
         }
-    }
-
-    onChange(e) {
+      }
+    
+      componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+          this.setState({ errors: nextProps.errors });
+        }
+      }
+    
+      onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-    }
-
-    onSubmit(e) {
+      }
+    
+      onSubmit(e) {
         e.preventDefault();
-
+    
         const newUser = {
-            handle: this.state.name,
-            email: this.state.email,
-            password: this.state.password,
-            passwordConfirm: this.state.password2
+          name: this.state.name,
+          email: this.state.email,
+          password: this.state.password,
+          passwordConfirm: this.state.password2
         };
-
-        this.props.registerUser(newUser, this.props.router.navigate);
-    }
+    
+        this.props.registerUser(newUser, this.props.history);
+      }
 
   render() {
 
