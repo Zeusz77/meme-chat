@@ -1,78 +1,66 @@
 import React, { useState } from "react";
-import { Formik } from "formik";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { authReducer } from "../reducers/auth/authReducer";
+import { LoginSchema } from "../schemas";
+import { loginUser } from "../actions/authActions";
 
 export const Login = () => {
-  const [loginError, setLoginError] = useState(false);
+  const [loginError, setLoginError] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values) => {
-    const { email, password } = values;
-    const user = { email, password };
-    console.log(user);
-    authReducer(user);
+  const onSubmit = (values) => {
+    try {
+      setLoginError(null);
+      loginUser(values, navigate, dispatch);
+    } catch (error) {
+      setLoginError(error.errors);
+    }
   };
+
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: LoginSchema,
+    onSubmit,
+  });
 
   return (
     <div>
       <h1>Login</h1>
+      
+        <form onSubmit={handleSubmit}>
 
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = "Required";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-          ) {
-            errors.email = "Invalid email address";
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setInterval(() => {
-            handleSubmit(values);
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-            />
+        {loginError && <div>Incorrect email adress or password</div>}
 
-            {errors.email && touched.email && errors.email}
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+          />
+          {errors.email && touched.email && <p>{errors.email}</p>}
 
-            <input
-              type="password"
-              name="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-            />
+          <label htmlFor="password">Password</label>  
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+          />
+          {errors.password && touched.password && <p>{errors.password}</p>}
 
-            {errors.password && touched.password && errors.password}
-
-            <button type="submit" disabled={isSubmitting}>
-              Login
-            </button>
-          </form>
-        )}
-      </Formik>
+          <button type="submit">
+            Login
+          </button>
+        </form>
     </div>
   );
 };
