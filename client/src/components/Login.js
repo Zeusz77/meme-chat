@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 
+import { authReducer } from "../reducers/auth/authReducer";
+
 export const Login = () => {
+  const [loginError, setLoginError] = useState(false);
+
+  const handleSubmit = (values) => {
+    const { email, password } = values;
+    const user = { email, password };
+    console.log(user);
+    authReducer(user);
+  };
+
   return (
     <div>
       <h1>Login</h1>
@@ -20,7 +31,10 @@ export const Login = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
+          setInterval(() => {
+            handleSubmit(values);
+            setSubmitting(false);
+          }, 400);
         }}
       >
         {({
@@ -31,8 +45,6 @@ export const Login = () => {
           handleBlur,
           handleSubmit,
           isSubmitting,
-
-          /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
             <input
