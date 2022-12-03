@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const multer = require('multer');
+const cors = require('cors');
 
 const users = require('./routes/api/users');
 const messages = require('./routes/api/messages');
@@ -10,6 +11,9 @@ const templates = require('./routes/api/templates');
 const chats = require('./routes/api/chats');
 
 const app = express();
+
+// CORS middleware
+app.use(cors());
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({extended: false}));

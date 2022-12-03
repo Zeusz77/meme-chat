@@ -7,16 +7,16 @@ import { LoginSchema } from "../schemas";
 import { loginUser } from "../actions/authActions";
 
 export const Login = () => {
-  const [loginError, setLoginError] = useState(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
     try {
-      setLoginError(null);
-      loginUser(values, navigate, dispatch);
-    } catch (error) {
-      setLoginError(error.errors);
+      setError("");
+      dispatch(loginUser(values, navigate, dispatch));
+    } catch (err) {
+      setError(err);
     }
   };
 
@@ -33,9 +33,9 @@ export const Login = () => {
     <div>
       <h1>Login</h1>
       
-        <form onSubmit={handleSubmit}>
+        {error && <div>Incorrect email or password</div>}
 
-        {loginError && <div>Incorrect email adress or password</div>}
+        <form onSubmit={handleSubmit}>
 
           <label htmlFor="email">Email</label>
           <input
