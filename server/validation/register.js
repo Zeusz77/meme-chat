@@ -3,9 +3,7 @@ const isEmpty = require('./is-empty');
 const login = require('./login');
 
 module.exports = function validateRegisterInput(data){
-    let errors = {}
-
-    console.log(data);
+    let errors = {};
 
     data.handle = !isEmpty(data.handle) ? data.handle : '';
     data.email = !isEmpty(data.email) ? data.email : '';
