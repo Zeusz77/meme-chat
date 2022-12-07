@@ -4,12 +4,13 @@ const User = require('./User');
 
 const ChatSchema = new Schema({
     participants: [{
-        type: User,
+        type: Schema.Types.ObjectId,
+        ref: 'users',
         required: true,
     }],
     name: {
         type: String,
-        default: ''.join(participants.map(participant => participant.handle)),
+        default: 'New Chat',
     },
     lastMessage: {
         type: Date,

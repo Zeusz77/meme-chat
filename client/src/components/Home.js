@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { getIsLoggedIn } from '../utils/selectors';
-import { MessageList } from './MessageList';
+import { ChatList } from './ChatList';
 
 export const Home = () => {
     const isLoggedIn = useSelector(getIsLoggedIn);
@@ -11,7 +11,7 @@ export const Home = () => {
     return (
         <div>
             {isLoggedIn ? ( 
-                <MessageList />
+                <ChatList />
              ) : (
                 <Fragment>
                     <li className="nav-item">

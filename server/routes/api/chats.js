@@ -7,7 +7,9 @@ router.get('/test', (req, res) => {
     res.json({msg: 'test message'});
 });
 
-router.get('/chats', passport.authenticate('jwt', {session: false}), (req, res) => {
+const Chat = require('../../models/Chat');
+
+router.get('/all', passport.authenticate('jwt', {session: false}), (req, res) => {
     Chat.find({users: req.user.id})
     .then(chats => {
         if (!chats){
