@@ -18,7 +18,7 @@ export const loginUser = (userData, navigate, dispatch) => {
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
-            navigate('/');
+            navigate('/chatList');
         })
         .catch(err => {
             dispatch({

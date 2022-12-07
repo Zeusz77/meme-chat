@@ -14,8 +14,9 @@ const ChatSchema = new Schema({
     },
     lastMessage: {
         type: Date,
+        default: Date.now(),
         required: true,
-    }
+    },
 });
 
 module.exports = Chat = mongoose.model('chats', ChatSchema);

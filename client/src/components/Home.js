@@ -1,17 +1,24 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { getIsLoggedIn } from '../utils/selectors';
-import { ChatList } from './ChatList';
 
 export const Home = () => {
     const isLoggedIn = useSelector(getIsLoggedIn);
+    const navigate = useNavigate();
+        
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/chatList');
+        }
+    }, [isLoggedIn, navigate]);
 
     return (
         <div>
             {isLoggedIn ? ( 
-                <ChatList />
+                null
              ) : (
                 <Fragment>
                     <li className="nav-item">
