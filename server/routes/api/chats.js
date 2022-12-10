@@ -8,9 +8,10 @@ router.get('/test', (req, res) => {
 });
 
 const Chat = require('../../models/Chat');
+const User = require('../../models/User');
 
 router.get('/all', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Chat.find({users: req.user.id})
+    Chat.find({participants: req.user.id})
     .then(chats => {
         if (!chats){
             errors.nochats = 'No chats found';
@@ -23,16 +24,18 @@ router.get('/all', passport.authenticate('jwt', {session: false}), (req, res) =>
 
 // User creates a new chat
 router.post('/create', passport.authenticate('jwt', {session: false}), (req, res) => {
-    // parse the participants from the request body, fins the user ids, and add them to an array, add the current user to the array
-    console.log(req.body.participants);
-    const participants = req.body.participants.map(participant => {
-        return User.findOne({username: participant}).then(user => {
-            return user.id;
-        });
+    let participantIds = [];
+    req.body.participants.forEach(participant => {
+        User.findOne({handle: participant})
+            .then(user => {
+                participantIds.push(user._id);
+            }
+        );
     });
-    participants.push(req.user.id);
+    participantIds.push(req.user.id);
+
     const newChat = new Chat({
-        participants: participants,
+        participants: participantIds,
         name: req.body.name,
     });
     newChat.save()

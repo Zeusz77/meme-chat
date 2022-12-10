@@ -36,15 +36,15 @@ export const ChatList = () => {
         <Fragment>
             <AddOrSearchChat />
             <div className="chat-list">
-                { !!error &&
+                { 
                     chats.map((chat) => (
-                    <div
-                        key={chat._id}
-                        className="chat-list-item"
-                        onClick={() => navigate(`/chat/${chat._id}`)}
-                    >
-                        {chat.name}
-                    </div>
+                        <div
+                            key={chat._id}
+                            className="chat-list-item"
+                            onClick={() => navigate(`/chat/${chat._id}`)}
+                        >
+                            Asd
+                        </div>
                 ))}
             </div>
         </Fragment>

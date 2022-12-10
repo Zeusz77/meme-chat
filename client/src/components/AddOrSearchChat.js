@@ -49,22 +49,22 @@ export const AddOrSearchChat = () => {
                     {error && <div>Imput couldn't be parsed</div>}
                     <div className="col s12">
                         <div className="input-field">
+                            <label htmlFor="name">Chat Name</label>
                             <input
                                 type="text"
                                 name="name"
                                 onChange={handleChange}
                                 value={values.name}
                             />
-                            <label htmlFor="name">Chat Name</label>
                             {errors.name && touched.name && <p>{errors.name}</p>}
                             
+                            <label htmlFor="participants">Participants</label>
                             <input
                                 type="text"
                                 name="participants"
                                 onChange={handleChange}
                                 value={values.participants}
                             />
-                            <label htmlFor="participants">Participants</label>
                             {errors.participants && touched.participants && <p>{errors.participants}</p>}
 
                             <button
