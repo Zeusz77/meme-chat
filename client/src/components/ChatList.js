@@ -36,7 +36,7 @@ export const ChatList = () => {
         <Fragment>
             <AddOrSearchChat />
             <div className="chat-list">
-                { 
+                { !error &&
                     chats.map((chat) => (
                         <div
                             key={chat._id}

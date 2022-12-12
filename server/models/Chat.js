@@ -9,8 +9,7 @@ const ChatSchema = new Schema({
         default: 'New Chat'
     },
     participants: [{
-        type: Schema.Types.ObjectId,
-        ref: 'users',
+        type: String,
         required: true
     }],
     lastMessage: {
