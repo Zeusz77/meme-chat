@@ -2,13 +2,19 @@ import axios from "axios";
 
 import { GET_CHATS, GET_ERRORS } from "../reducers/types";
 
+const setChats = (chats) => {
+    return {
+        type: GET_CHATS,
+        payload: chats
+    }
+}
+
 export const getChats = (dispatch) => {
     axios.get('http://localhost:5000/api/chats/all')
         .then(res => {
-            dispatch({
-                type: GET_CHATS,
-                payload: res.data
-            });
+            //console.log(res.data);
+            const chats = res.data;
+            dispatch(setChats(chats));
         })
         .catch(err => {
             dispatch({

@@ -1,7 +1,6 @@
 import { GET_ERRORS  } from "../types";
 
 const initialState = {
-    msg: ""
 };
 
 export const errorReducer = (state = initialState, action) => {

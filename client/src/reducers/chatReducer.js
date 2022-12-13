@@ -1,8 +1,6 @@
 import { GET_CHATS, LOUGOUT_USER } from "./types";
 
-const initialState = {
-    chats: []
-};
+const initialState = {};
 
 export const chatReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -12,10 +10,7 @@ export const chatReducer = (state = initialState, action) => {
                 chats: []
             };
         case GET_CHATS:
-            return {
-                ...state,
-                chats: action.payload
-            };
+            return action.payload;
         default:
             return state;
     }
