@@ -6,6 +6,7 @@ const router = express.Router();
 const multer = require('multer');
 
 const Template = require('../../models/Template');
+const passport = require('passport');
 
 const storage = multer.diskStorage({
     destination: './images',
@@ -40,15 +41,11 @@ router.post('/upload', (req, res) => {
     })
 });
 
-// get all template images from the Image folder
-router.get('/images', (req, res) => {
-    const directoryPath = path.join(__dirname, '../../images');
-    fs.readdir(directoryPath, function (err, files) {
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        } 
-        res.json(files);
-    });
+// get all templates authententicated
+router.get('/all', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Template.find()
+    .then(templates => res.json(templates))
+    .catch(err => console.log(err));
 });
 
 // get template image by name

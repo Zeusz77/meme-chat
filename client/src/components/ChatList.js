@@ -44,7 +44,7 @@ export const ChatList = () => {
                         <Link 
                             to={`/chat/${chat._id}`}
                             key={chat._id}
-                            state={chat._id}
+                            state={chat.name + " " + chat._id}
                         >
                              <div className="chat-list-item">
                                 <div className="chat-list-item-name">
