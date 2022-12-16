@@ -9,6 +9,7 @@ import { Navbar } from './Navbar.js';
 import { Footer } from './Footer.js';
 import { ChatList } from './ChatList.js';
 import { Chat } from './Chat.js';
+import { AddTemplate } from './AddTemplate.js';
 
 export const AppRouter = () => {
     return (
@@ -18,6 +19,7 @@ export const AppRouter = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/chatList" element={<ChatList />} />
                     <Route path="/chat/:id" element={<Chat />} />
+                    <Route path="/addTemplate" element={<AddTemplate />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="*" element={<NotFound />} />

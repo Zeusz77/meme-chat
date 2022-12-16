@@ -23,7 +23,7 @@ router.post('/test', (req, res) => {
     res.json({msg: 'test message'});
 })
 
-router.post('/upload', (req, res) => {
+router.post('/upload', passport.authenticate('jwt', {session: false}),(req, res) => {
     upload(req, res, (err) => {
         if (err){
             res.json({error: err});

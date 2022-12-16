@@ -29,11 +29,16 @@ export const Navbar = () => {
                         </li>
 
                         {isLoggedIn ? (
-                            <li className="nav-item">
-                                <a onClick={handleClick} className="nav-link" href="#logout">
-                                    Logout {user.handle}
-                                </a>
-                            </li>
+                            <Fragment>
+                                <li className="nav-item">
+                                    <a onClick={handleClick} className="nav-link" href="#logout">
+                                        Logout {user.handle}
+                                    </a>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/addTemplate">Add new template</Link>
+                                </li>
+                            </Fragment>
                         ) : (
                             <Fragment>
                                 <li className="nav-item">

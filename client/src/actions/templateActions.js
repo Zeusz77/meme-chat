@@ -23,3 +23,17 @@ export const getTemplates = (dispatch) => {
             })}
         );
 }
+
+export const addTemplate = (templateData, navigate, dispatch) => {
+    axios.post('http://localhost:5000/api/templates/upload', templateData)
+        .then(res => {
+            console.log(res.data);
+            navigate("/chatList");
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })}
+        );
+}

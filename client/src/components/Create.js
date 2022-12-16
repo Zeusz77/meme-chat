@@ -42,6 +42,8 @@ export const Create = () => {
         onSubmit: (values) => {
             console.log(values);
         }
+
+        
     });
 
     
@@ -49,7 +51,7 @@ export const Create = () => {
     return (
         <div>
             <form>
-
+                
 
                 {Array.isArray(templates) && !error && templates.map((template) => (
                     <div key={template._id}>
