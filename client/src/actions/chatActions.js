@@ -32,7 +32,7 @@ export const createChat = (chatData, navigate, dispatch) => {
     }
     axios.post('http://localhost:5000/api/chats/create', chatData)
         .then(res => {
-            navigate(`/chat/${res.data._id}`);
+            navigate(`/chat/${res.data._id}`, { state : res.data.name + " " + res.data._id });
         })
         .catch(err => {
             dispatch({

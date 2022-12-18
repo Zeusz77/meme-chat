@@ -42,20 +42,35 @@ export const Create = () => {
         onSubmit: (values) => {
             console.log(values);
         }
-
-        
     });
 
-    
+    const renderFields = () => {
+        if (values.template) {
+            const template = templates.find(t => t.imageName === values.template);
+            const fields = template.fields.split(",");
+            return fields.map((field, index) => (
+                <div key={index}>
+                    <label htmlFor={field}>{field}</label>
+                    <input
+                        id={field}
+                        name={field}
+                        type="text"
+                        onChange={handleChange}
+                        value={values[field]}
+                    />
+                    {errors[field] && touched[field] && <div>{errors[field]}</div>}
+                </div>
+            ));
+        }
+    }
 
     return (
         <div>
-            <form>
-                
-
+            <form onSubmit={handleSubmit}>
+                {renderFields()}
                 {Array.isArray(templates) && !error && templates.map((template) => (
                     <div key={template._id}>
-                        <img src={`http://localhost:5000/api/templates/images/${template.imageName}`} alt=""/>
+                        <img src={`http://localhost:5000/api/templates/images/${template.imageName}`} alt="" height='125vh'/>
                         <input
                             type="radio"
                             name="template"
@@ -64,8 +79,9 @@ export const Create = () => {
                         />
                     </div>
                 ))}
-                
+                <button type="submit">Submit</button>
             </form>
         </div>
     );
 };
+

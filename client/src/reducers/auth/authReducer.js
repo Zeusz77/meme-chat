@@ -17,7 +17,10 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuthenticated: false,
-                user: {}
+                user: {},
+                templates: [],
+                chats: [],
+                messages: [],
             };
         default:
             return state;
