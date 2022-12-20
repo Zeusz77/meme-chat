@@ -9,7 +9,7 @@ router.get('/test', (req, res)=> {
 })
 
 // A route to get all messages in given chatroom
-router.get('/chat/:chatId', (req, res) => {
+router.get('/get', (req, res) => {
     Message.find({chatId: req.params.chatId})
     .then(messages => {
         // return all messages in order of creation from newest to oldest
@@ -19,7 +19,7 @@ router.get('/chat/:chatId', (req, res) => {
 });
 
 // Send a message to a chatroom
-router.post('/chat/:chatId', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.post('/create', passport.authenticate('jwt', {session: false}), (req, res) => {
     const newMessage = new Message({
         template : req.body.template,
         text : req.body.text,
@@ -31,7 +31,7 @@ router.post('/chat/:chatId', passport.authenticate('jwt', {session: false}), (re
 });
 
 // Get a message by id
-router.get('/:id', (req, res) => {
+router.get('/:imageId', (req, res) => {
     Message.findById(req.params.id)
     .then(message => res.sendFile(message.imagePath))
     .catch(err => res.status(404).json({nomessagefound: 'No message found'}));

@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 
 import { getTemplates } from "../actions/templateActions";
 import { getTemplateSelector } from "../utils/selectors";
+import { sendMessage } from "../actions/messageActions";
 
 export const Create = () => {
     const [error, setError] = useState("");
@@ -31,26 +32,38 @@ export const Create = () => {
         return () => clearInterval(i2);
     }, [dispatch, templateState]);
 
+    const onSubmit = (values) => {
+        console.log(values);
+        try {
+            setError("");
+            sendMessage(values);
+        }
+        catch (err) {
+            setError(err);
+        }
+    };
 
     const { values, handleChange, handleSubmit, errors, touched} = useFormik({
         initialValues: {
             template: "",
-            text: '',
+            text: [],
             chat: chatId,
         },
 
-        onSubmit: (values) => {
-            console.log(values);
-        }
+        onSubmit,
     });
 
     const renderFields = () => {
         if (values.template) {
             const template = templates.find(t => t.imageName === values.template);
-            const fields = template.fields.split(",");
+            const fields = template.fields.match(/\d+/g).reduce((acc, cur, idx) => {
+                idx % 2 ? acc[acc.length - 1].push(cur) : acc.push([cur]);
+                return acc;
+            }, []);
+              
             return fields.map((field, index) => (
                 <div key={index}>
-                    <label htmlFor={field}>{field}</label>
+                    <label htmlFor={field}>{field[0]}, {field[1]}</label>
                     <input
                         id={field}
                         name={field}
@@ -74,7 +87,7 @@ export const Create = () => {
                         <input
                             type="radio"
                             name="template"
-                            value={template.imageName}
+                            value={template.name}
                             onChange={handleChange}
                         />
                     </div>

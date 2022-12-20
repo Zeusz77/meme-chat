@@ -45,7 +45,7 @@ export const Login = () => {
             onBlur={handleBlur}
             value={values.email}
           />
-          {errors.email && touched.email && <p>{errors.email}</p>}
+          {errors.email && touched.email && <span>{errors.email}</span>}
 
           <label htmlFor="password">Password</label>  
           <input

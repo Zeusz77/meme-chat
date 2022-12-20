@@ -9,8 +9,8 @@ const setMessages = (messages) => {
     }
 }
 
-export const getMessages = (dispatch) => {
-    axios.get('http://localhost:5000/api/messages/all')
+export const getMessages = (chatId ,dispatch) => {
+    axios.get(`http://localhost:5000/api/messages/get`, {params: {chatId: chatId}})
         .then(res => {
             //console.log(res.data);
             const messages = res.data;
@@ -24,15 +24,11 @@ export const getMessages = (dispatch) => {
         );
 }
 
-export const createMessage = (messageData, navigate, dispatch) => {
-    messageData = {
-        name: messageData.name,
-        // get the participants and add the current user to the list
-        participants: messageData.participants.split(',').map(participant => participant.trim())
-    }
+export const sendMessage = (messageData, navigate, dispatch) => {
+    
     axios.post('http://localhost:5000/api/messages/create', messageData)
         .then(res => {
-            navigate(`/message/${res.data._id}`);
+            console.log(res.data);
         })
         .catch(err => {
             dispatch({

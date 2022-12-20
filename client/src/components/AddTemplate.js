@@ -9,36 +9,58 @@ import { addTemplate } from "../actions/templateActions";
 
 export const AddTemplate = () => {
     const [error, setError] = useState("");
+    const [file, setFile] = useState("");   
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector(getIsLoggedIn);
     
     React.useEffect(() => {
+        document.querySelector("img").addEventListener("click", (e) => {
+            let tmp = document.createElement("li");
+            // The innerHTML property contains the x and y coordinates of the click on the image
+            tmp.innerHTML = e.offsetX + " " + e.offsetY;
+            tmp.addEventListener("click", (e) => {
+                e.target.remove();
+            });
+            document.querySelector("#fields").appendChild(tmp);
+        });
+    }, []);
+
+    React.useEffect(() => {
         if (!isLoggedIn) {
             navigate("/login");
         }  
-    }, [dispatch, navigate, isLoggedIn]);
+    }, [navigate, isLoggedIn]);
 
+    const onSubmit = (values) => {
+        try{
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('imageName', file.name);
+            formData.append('numberOfFields', document.querySelectorAll("#fields li").length);
+            let fields = '';
+            document.querySelectorAll("#fields li").forEach((li) => {
+                fields += li.innerHTML + " ";
+            });
+            formData.append('fields', fields);
+            formData.append('file', file, file.name);
+            setError("");
+            dispatch(addTemplate(formData, navigate, dispatch));
+        }
+        catch(err){
+            setError(err);
+        }
+    }
 
     const { values, handleChange, handleSubmit, errors, touched} = useFormik({
         initialValues: {
             name: "",
             imageName: "",
-            numberOfFields: "",
-            fields: "",
         },
 
         validationSchema: TemplateSchema,
 
-        onSubmit: (values) => {
-            try{
-                setError("");
-                dispatch(addTemplate(values, navigate, dispatch));
-            }
-            catch(err){
-                setError(err);
-            }
-        }
+        onSubmit,
 
     });
 
@@ -47,7 +69,14 @@ export const AddTemplate = () => {
             {error.fields && <div>{error.fields}</div>}
             <form 
                 onSubmit={handleSubmit}
+                encType="multipart/form-data"
             >
+
+                <img alt="Your template"/>
+                <ul id="fields">
+
+                </ul>
+
                 <input
                     type="text"
                     name="name"
@@ -58,24 +87,16 @@ export const AddTemplate = () => {
                 <input
                     type="file"
                     name="imageName"
-                    onChange={handleChange}
+                    onChange={(event) => {
+                        setFile(event.target.files[0]);
+                        handleChange(event);
+                        const img = document.querySelector('img');
+                        img.src = URL.createObjectURL(event.target.files[0]);
+                    }}
                     value={values.imageName}
                 />
-                {errors.imageName && touched.imageName && <p>{errors.imageName}</p>}
-                <input
-                    type="number"
-                    name="numberOfFields" 
-                    onChange={handleChange}
-                    value={values.numberOfFields}
-                />
-                {errors.numberOfFields && touched.numberOfFields && <p>{errors.numberOfFields}</p>}
-                <input
-                    type="text"
-                    name="fields"
-                    onChange={handleChange}
-                    value={values.fields}    
-                />
-                {errors.fields && touched.fields && <p>{errors.fields}</p>}
+                
+          
                 <button type="submit">Add Template</button>
             </form>
         </div>

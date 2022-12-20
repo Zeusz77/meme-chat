@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-}).single('image');
+}).single('file');
 
 router.post('/test', (req, res) => {
     res.json({msg: 'test message'});
@@ -30,7 +30,7 @@ router.post('/upload', passport.authenticate('jwt', {session: false}),(req, res)
         }else{
             const newTemplate = new Template({
                 name: req.body.name,
-                imageName: req.file.filename,
+                imageName: req.body.imageName,
                 numberOfFields: req.body.numberOfFields,
                 fields: req.body.fields
             });

@@ -13,13 +13,16 @@ const MessageSchema = new Schema({
         required: true,
     }],
     chat: {
-        type: Schema.Types.ObjectId,
-        ref: 'chats',
+        type: String,
         required: true,
     },
     user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
+        type: String,
+        required: true,
+    },
+    userAvatar: {
+        type: String,
+        required: true,
     },
     date: {
         type: Date,

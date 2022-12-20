@@ -15,6 +15,4 @@ export const RegisterSchema = yup.object().shape({
 export const TemplateSchema = yup.object().shape({
     name: yup.string().required("Required"),
     imageName: yup.string().required("Required"),
-    numberOfFields: yup.number().required("Required"),
-    fields: yup.string().required("Required"),
 });
