@@ -34,9 +34,14 @@ export const Create = () => {
 
     const onSubmit = (values) => {
         console.log(values);
+        const formatted = {
+            template: templates.find(t => t.imageName === values.template).name,
+            text: [],
+        }
+        console.log(formatted);
         try {
             setError("");
-            sendMessage(values);
+            //sendMessage(values);
         }
         catch (err) {
             setError(err);
@@ -66,10 +71,9 @@ export const Create = () => {
                     <label htmlFor={field}>{field[0]}, {field[1]}</label>
                     <input
                         id={field}
-                        name={field}
+                        name={'text[' + index + ']'}
                         type="text"
                         onChange={handleChange}
-                        value={values[field]}
                     />
                     {errors[field] && touched[field] && <div>{errors[field]}</div>}
                 </div>
@@ -87,8 +91,8 @@ export const Create = () => {
                         <input
                             type="radio"
                             name="template"
-                            value={template.name}
                             onChange={handleChange}
+                            value={template.imageName}
                         />
                     </div>
                 ))}
