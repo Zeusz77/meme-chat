@@ -26,58 +26,6 @@ router.get("/get", (req, res) => {
     );
 });
 
-// Send a message to a chatroom
-/*router.post(
-  "/create",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    const newMessage = new Message({
-      template: req.body.template,
-      text: req.body.text,
-      chat: req.body.chat,
-      user: req.user.handle,
-      userAvatar: req.user.avatar,
-      messageImage: '',
-    });
-
-    // Load the message template
-    Template.findOne({ imageName: newMessage.template })
-      .then((template) => {
-        // Load the image into Jimp
-        const directoryPath = path.join(__dirname, "../../images");
-        const imagePath = path.join(directoryPath, template.imageName);
-        Jimp.read(imagePath, (err, image) => {
-          if (err) throw err;
-          // write the text to the image
-          const fields = template.fields.match(/\d+/g).reduce((acc, cur, idx) => {
-            idx % 2 ? acc[acc.length - 1].push(cur) : acc.push([cur]);
-            return acc;
-          }, []);
-          fields.forEach((field, i) => {
-            image.print(
-              Jimp.loadFont(Jimp.FONT_SANS_32_BLACK),
-              field[0],
-              field[1],
-              newMessage.text[i]
-            );
-          });
-
-          // save the image
-          const imageName = `${newMessage.user}-${newMessage.chat}-${newMessage.date}`;
-          image.write(`../models/${imageName}.png`, (err) => {
-            if (err) throw err;
-            newMessage.messageImage = imageName;
-          });
-        });
-
-    // save the message
-    newMessage
-      .save()
-      .then((message) => res.json(message))
-      .catch((err) => console.log(err));
-  }
-);*/
-
 async function loadFont() {
   const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
   return font;
@@ -91,6 +39,15 @@ async function writeText(image, font, field, text) {
     alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
     alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
   });
+}
+
+async function loopFields(imagePath, font, fields, text) {
+  let image = await Jimp.read(imagePath);
+
+  for (let i = 0; i < fields.length; i++) {
+    await writeText(image, font, fields[i], text[i]);
+  }
+  return image;
 }
 
 router.post(
@@ -112,31 +69,15 @@ router.post(
       const directoryPath = path.join(__dirname, "../../images");
       const imagePath = path.join(directoryPath, template.imageName);
       console.log(imagePath);
-      Jimp.read(imagePath, (err, image) => {
-        console.log(image);
-        if (err) throw err;
-        // write the text to the image
-        const fields = template.fields.match(/\d+/g).reduce((acc, cur, idx) => {
-          idx % 2 ? acc[acc.length - 1].push(cur) : acc.push([cur]);
-          return acc;
-        }, []);
 
-        
-        console.log(fields);
-        console.log(newMessage.text);
-        fields.forEach((field, i) => {
-          console.log(field);
-          console.log(newMessage.text[i]);
-          const font = loadFont();
-          writeText(image, font, field, newMessage.text[i]);
-        });
-
-        // save the image
-        const imageName = `${newMessage.user}-${newMessage.chat}-${newMessage.date}`;
-        image.writeAsync(`../models/${imageName}.png`, (err) => {
-          if (err) throw err;
-        });
-        newMessage.messageImage = imageName;
+      loopFields(imagePath, loadFont(), template.fields, newMessage.text).then(
+        (image) => {
+          // save the image
+          const imageName = `${newMessage.user}-${newMessage.chat}-${newMessage.date}`;
+          image.write(`../models/${imageName}.png`, (err) => {
+            if (err) throw err;
+            newMessage.messageImage = imageName;
+          });
       });
     });
   }
