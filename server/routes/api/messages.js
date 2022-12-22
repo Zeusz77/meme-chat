@@ -9,6 +9,7 @@ const path = require("path");
 
 const Message = require("../../models/Message");
 const Template = require("../../models/Template");
+const { collection } = require("../../models/Template");
 
 router.get("/test", (req, res) => {
   res.json({ msg: "test message" });
@@ -26,30 +27,6 @@ router.get("/get", (req, res) => {
     );
 });
 
-async function loadFont() {
-  const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
-  return font;
-}
-
-async function writeText(image, font, field, text) {
-  const x = parseInt(field[0]);
-  const y = parseInt(field[1]);
-  await image.print(font, x, y, {
-    text: text,
-    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-    alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
-  });
-}
-
-async function loopFields(imagePath, font, fields, text) {
-  let image = await Jimp.read(imagePath);
-
-  for (let i = 0; i < fields.length; i++) {
-    await writeText(image, font, fields[i], text[i]);
-  }
-  return image;
-}
-
 router.post(
   "/create",
   passport.authenticate("jwt", { session: false }),
@@ -63,21 +40,37 @@ router.post(
       messageImage: "",
     });
 
+    //console.log(newMessage);
+
     // Load the message template
     Template.findOne({ imageName: newMessage.template }).then((template) => {
+      //console.log(template);
       // Load the image into Jimp
       const directoryPath = path.join(__dirname, "../../images");
       const imagePath = path.join(directoryPath, template.imageName);
-      console.log(imagePath);
+      //console.log(imagePath);
 
-      loopFields(imagePath, loadFont(), template.fields, newMessage.text).then(
-        (image) => {
-          // save the image
-          const imageName = `${newMessage.user}-${newMessage.chat}-${newMessage.date}`;
-          image.write(`../models/${imageName}.png`, (err) => {
+      Jimp.read(imagePath).then((image) => {
+        Jimp.loadFont(Jimp.FONT_SANS_32_BLACK).then((font) => {
+          const fields = template.fields.match(/\d+/g).reduce((acc, cur, idx) => {
+            idx % 2 ? acc[acc.length - 1].push(cur) : acc.push([cur]);
+            return acc;
+          }, []);
+          for(let i = 0; i < fields.length; i++) {
+            //console.log(fields[i][0], fields[i][1], newMessage.text[i]);
+            image.print(font, parseInt(fields[i][0]), parseInt(fields[i][1]), newMessage.text[i]);
+          }
+          const imageName = `${newMessage.user}-${newMessage.chat}-${newMessage.date.getTime()}.png`;
+          image.write(`./messages/${
+            imageName
+          }`, (err) => {
             if (err) throw err;
             newMessage.messageImage = imageName;
+            newMessage.save()
+            .then((message) => res.json(message))
+            .catch((err) => console.log(err));
           });
+        });
       });
     });
   }
@@ -85,19 +78,14 @@ router.post(
 
 // Get a message by id
 router.get(
-  "/images/:messageId",
-  passport.authenticate("jwt", { session: false }),
+  "/images/:messageName",
   (req, res) => {
-    Message.findById(req.params.messageId)
-      .then((message) => {
-        const directoryPath = path.join(__dirname, "../../messages");
-        const imagePath = path.join(directoryPath, message.messageImage);
-        const readStream = fs.createReadStream;
-        res.sendFile(imagePath);
-      })
-      .catch((err) =>
-        res.status(404).json({ nomessagefound: "No message found" })
-      );
+    console.log(req.params.messageName);
+    const directoryPath = path.join(__dirname, '../../messages');
+    const imageName = req.params.messageName;
+    const imagePath = path.join(directoryPath, imageName);
+    const readStream = fs.createReadStream
+    res.sendFile(imagePath);
   }
 );
 

@@ -41,7 +41,7 @@ export const Display = () => {
                     <div className="display-item-name d-flex align-items-center">
                         <p className="mr-3">{message.user}</p>
                         <img src={message.userAvatar} alt="" height='150vh' className="img-fluid rounded-circle" />
-                        <img src={`http://localhost:5000/api/messages/images/${message._id}`} alt="" height='150vh' className="img-fluid" />
+                        <img src={`http://localhost:5000/api/messages/images/${message.messageImage}`} alt="" height='150vh' className="img-fluid" />
                     </div>
                     </div>
                 </div>
