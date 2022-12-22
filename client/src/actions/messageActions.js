@@ -10,7 +10,8 @@ const setMessages = (messages) => {
 }
 
 export const getMessages = (chatId ,dispatch) => {
-    axios.get(`http://localhost:5000/api/messages/get`, {params: {chatId: chatId}})
+    console.log(chatId);
+    axios.post(`http://localhost:5000/api/messages/get`, {chat: chatId})
         .then(res => {
             //console.log(res.data);
             const messages = res.data;

@@ -16,11 +16,12 @@ router.get("/test", (req, res) => {
 });
 
 // A route to get all messages in given chatroom
-router.get("/get", (req, res) => {
-  Message.find({ chatId: req.params.chatId })
+router.post("/get", passport.authenticate('jwt', {session: false}), (req, res) => {
+  console.log(req.body);
+  Message.find({ chat: req.body.chat })
     .then((messages) => {
       // return all messages in order of creation from newest to oldest
-      res.json(messages.reverse());
+      res.json(messages);
     })
     .catch((err) =>
       res.status(404).json({ nomessagesfound: "No messages found" })

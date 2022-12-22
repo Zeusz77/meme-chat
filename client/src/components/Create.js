@@ -64,7 +64,6 @@ export const Create = () => {
                 idx % 2 ? acc[acc.length - 1].push(cur) : acc.push([cur]);
                 return acc;
             }, []);
-              
             return fields.map((field, index) => (
                 <div key={index} className="form-group">
                 <label htmlFor={field}>{field[0]}, {field[1]}</label>
