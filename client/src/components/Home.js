@@ -16,19 +16,20 @@ export const Home = () => {
     }, [isLoggedIn, navigate]);
 
     return (
-        <div>
-            {isLoggedIn ? ( 
-                null
-             ) : (
-                <Fragment>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/login">Login</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/register">Register</Link>
-                    </li>
-                </Fragment>
-            )}
-        </div>
+<div className="d-flex justify-content-center mt-5">
+  {isLoggedIn ? ( 
+    null
+   ) : (
+    <Fragment>
+      <li className="nav-item mb-2 btn btn-primary btn-block w-75">
+        <Link className="nav-link" to="/login">Login</Link>
+      </li>
+      <li className="nav-item mb-2 btn btn-primary btn-block w-75">
+        <Link className="nav-link" to="/register">Register</Link>
+      </li>
+    </Fragment>
+  )}
+</div>
+
     );
 };

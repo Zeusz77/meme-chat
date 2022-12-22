@@ -24,9 +24,8 @@ export const getMessages = (chatId ,dispatch) => {
         );
 }
 
-export const sendMessage = (messageData, navigate, dispatch) => {
-    
-    axios.post('http://localhost:5000/api/messages/create', messageData)
+export const sendMessage = (dispatch, values) => {
+    axios.post(`http://localhost:5000/api/messages/create`, values)
         .then(res => {
             console.log(res.data);
         })

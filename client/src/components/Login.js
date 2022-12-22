@@ -30,10 +30,10 @@ export const Login = () => {
   });
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="container">
+      <h1 className="text-center mb-4">Login</h1>
       
-        {error && <div>Incorrect email or password</div>}
+        {error && <div className="alert alert-danger">Incorrect email or password</div>}
 
         <form onSubmit={handleSubmit}>
 
@@ -44,9 +44,10 @@ export const Login = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.email}
+            className="form-control mb-2"
           />
-          {errors.email && touched.email && <span>{errors.email}</span>}
-
+          {errors.email && touched.email && <span className="text-danger">{errors.email}</span>}
+          <br/>
           <label htmlFor="password">Password</label>  
           <input
             type="password"
@@ -54,13 +55,15 @@ export const Login = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.password}
+            className="form-control mb-2"
           />
-          {errors.password && touched.password && <p>{errors.password}</p>}
+          {errors.password && touched.password && <p className="text-danger">{errors.password}</p>}
 
-          <button type="submit">
+          <button type="submit" className="btn btn-primary btn-block">
             Login
           </button>
         </form>
     </div>
+
   );
 };

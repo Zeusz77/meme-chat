@@ -31,20 +31,24 @@ export const Display = () => {
 
     return (
         <div>
-            { error && <div className="alert alert-danger">{error}</div> }
-            <div className="display">
-                { Array.isArray(messages) && !error &&
-                    messages.map((message) => (
-                        <div key={message._id} className="display-item">
-                            <div className="display-item-name">
-                                <p>{message.user}</p>
-                                <img src={message.userAvatar} alt="" height='150vh'/>
-                                <img src={`http://localhost:5000/api/messages/${message._id}`} alt="" height='150vh'/>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
+        { error && <div className="alert alert-danger">{error}</div> }
+        <div className="display row">
+            { Array.isArray(messages) && !error &&
+            messages.map((message) => (
+                <div key={message._id} className="col-12 col-md-6">
+                <div className="display-item card">
+                    <div className="card-body">
+                    <div className="display-item-name d-flex align-items-center">
+                        <p className="mr-3">{message.user}</p>
+                        <img src={message.userAvatar} alt="" height='150vh' className="img-fluid rounded-circle" />
+                        <img src={`http://localhost:5000/api/messages/images/${message._id}`} alt="" height='150vh' className="img-fluid" />
+                    </div>
+                    </div>
+                </div>
+                </div>
+            ))
+            }
+        </div>
         </div>
     );
 };

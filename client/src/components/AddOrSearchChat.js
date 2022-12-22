@@ -43,41 +43,46 @@ export const AddOrSearchChat = () => {
 
 
     return (
-        <Fragment>
-            <div className="row">
-                <form onSubmit={handleSubmit}>
-                    {error && <div>Imput couldn't be parsed</div>}
-                    <div className="col s12">
-                        <div className="input-field">
-                            <label htmlFor="name">Chat Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                onChange={handleChange}
-                                value={values.name}
-                            />
-                            {errors.name && touched.name && <p>{errors.name}</p>}
-                            
-                            <label htmlFor="participants">Participants</label>
-                            <input
-                                type="text"
-                                name="participants"
-                                onChange={handleChange}
-                                value={values.participants}
-                            />
-                            {errors.participants && touched.participants && <p>{errors.participants}</p>}
+<Fragment>
+  <div className="container">
+    <div className="row">
+      <form onSubmit={handleSubmit}>
+        {error && <div className="alert alert-danger">Input couldn't be parsed</div>}
+        <div className="col-12">
+          <div className="form-group">
+            <label htmlFor="name">Chat Name</label>
+            <input
+              type="text"
+              name="name"
+              onChange={handleChange}
+              value={values.name}
+              className="form-control"
+            />
+            {errors.name && touched.name && <p className="text-danger">{errors.name}</p>}
+            
+            <label htmlFor="participants">Participants</label>
+            <input
+              type="text"
+              name="participants"
+              onChange={handleChange}
+              value={values.participants}
+              className="form-control"
+            />
+            {errors.participants && touched.participants && <p className="text-danger">{errors.participants}</p>}
 
-                            <button
-                                className="btn waves-effect waves-light"
-                                type="submit"
-                                name="action"
-                            >
-                                Add Chat
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </Fragment>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              name="action"
+            >
+              Add Chat
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</Fragment>
+
     );
 }

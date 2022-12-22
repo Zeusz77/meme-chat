@@ -65,40 +65,47 @@ export const AddTemplate = () => {
     });
 
     return (
-        <div>
-            {error.fields && <div>{error.fields}</div>}
-            <form 
-                onSubmit={handleSubmit}
-                encType="multipart/form-data"
-            >
+        <div className="container">
+        {error.fields && <div className="alert alert-danger">{error.fields}</div>}
+        <form 
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+        >
+            <div className="text-center mb-4">
+            <img alt="Your template" className="img-thumbnail" />
+            </div>
+            <ul id="fields">
 
-                <img alt="Your template"/>
-                <ul id="fields">
+            </ul>
 
-                </ul>
-
-                <input
-                    type="text"
-                    name="name"
-                    onChange={handleChange}
-                    value={values.name}
-                />
-                {errors.name && touched.name && <p>{errors.name}</p>}
-                <input
-                    type="file"
-                    name="imageName"
-                    onChange={(event) => {
-                        setFile(event.target.files[0]);
-                        handleChange(event);
-                        const img = document.querySelector('img');
-                        img.src = URL.createObjectURL(event.target.files[0]);
-                    }}
-                    value={values.imageName}
-                />
-                
-          
-                <button type="submit">Add Template</button>
-            </form>
+            <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+                type="text"
+                name="name"
+                onChange={handleChange}
+                value={values.name}
+                className="form-control"
+            />
+            {errors.name && touched.name && <p className="text-danger">{errors.name}</p>}
+            </div>
+            <div className="form-group">
+            <label htmlFor="imageName">Image</label>
+            <input
+                type="file"
+                name="imageName"
+                onChange={(event) => {
+                setFile(event.target.files[0]);
+                handleChange(event);
+                const img = document.querySelector('img');
+                img.src = URL.createObjectURL(event.target.files[0]);
+                }}
+                value={values.imageName}
+                className="form-control-file"
+            />
+            </div>
+            <button type="submit" className="btn btn-primary">Add Template</button>
+        </form>
         </div>
     )
 }
