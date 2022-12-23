@@ -1,6 +1,6 @@
 # Dependency directories
-src/node_modules
-src/client/node_modules
+server/node_modules/
+client/node_modules/
 
 # ES-Lint config
 src/.eslintrc.json
