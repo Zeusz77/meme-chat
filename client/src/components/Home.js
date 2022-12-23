@@ -21,12 +21,20 @@ export const Home = () => {
     null
    ) : (
     <Fragment>
-      <li className="nav-item mb-2 btn btn-primary btn-block w-75">
-        <Link className="nav-link" to="/login">Login</Link>
-      </li>
-      <li className="nav-item mb-2 btn btn-primary btn-block w-75">
-        <Link className="nav-link" to="/register">Register</Link>
-      </li>
+      <div>
+      <h1>Welcom to Meme-Chat</h1>
+      <div className='container'>
+        <br/>
+        <div className="row">
+        <li className="nav-item mb-2 btn btn-primary btn-block w-75">
+          <Link className="nav-link" to="/login">Login</Link>
+        </li>
+        <li className="nav-item mb-2 btn btn-primary btn-block w-75">
+          <Link className="nav-link" to="/register">Register</Link>
+        </li>
+        </div>
+      </div>
+      </div>
     </Fragment>
   )}
 </div>

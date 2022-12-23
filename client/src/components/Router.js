@@ -14,17 +14,21 @@ import { AddTemplate } from './AddTemplate.js';
 export const AppRouter = () => {
     return (
         <Router>
-            <Navbar />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/chatList" element={<ChatList />} />
-                    <Route path="/chat/:id" element={<Chat />} />
-                    <Route path="/addTemplate" element={<AddTemplate />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            <Footer />
+            <div className="container">
+                <div className="col">
+                    <Navbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/chatList" element={<ChatList />} />
+                            <Route path="/chat/:id" element={<Chat />} />
+                            <Route path="/addTemplate" element={<AddTemplate />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    <Footer />
+                </div>
+            </div>
         </Router>
     );
 };
