@@ -81,7 +81,7 @@ router.post(
 router.get(
   "/images/:messageName",
   (req, res) => {
-    console.log(req.params.messageName);
+    //console.log(req.params.messageName);
     const directoryPath = path.join(__dirname, '../../messages');
     const imageName = req.params.messageName;
     const imagePath = path.join(directoryPath, imageName);
